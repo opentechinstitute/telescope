@@ -62,8 +62,8 @@ def _create_test_validity_conditional(metric):
 
     conditions = []
     # Must have completed the TCP three-way handshake.
-    conditions.append('test_id NOT IN (SELECT test_id FROM '
-        'plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)')
+    conditions.append('test_id IN (SELECT test_id FROM '
+        'plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 0)')
     conditions.append(
         ('(web100_log_entry.snap.State = {state_closed}\n\t'
          '\tOR (web100_log_entry.snap.State >= {state_established}\n\t'
