@@ -145,6 +145,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -182,6 +183,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -216,6 +218,7 @@ FROM
 WHERE
   connection_spec.data_direction = 0
   AND connection_spec.data_direction IS NOT NULL
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -245,6 +248,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -280,6 +284,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -316,6 +321,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -354,6 +360,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -388,6 +395,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -423,6 +431,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
@@ -458,6 +467,7 @@ FROM
   plx.google:m_lab.ndt.all
 WHERE
   connection_spec.data_direction = 1
+  AND test_id NOT IN (SELECT test_id FROM plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)
   AND (web100_log_entry.snap.State = 1
        OR (web100_log_entry.snap.State >= 5
            AND web100_log_entry.snap.State <= 11))
