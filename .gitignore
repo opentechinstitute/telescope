@@ -1,0 +1,12 @@
+
+bigquery_credentials.dat
+
+*.pyc
+
+processed/*
+
+selectors
+
+*.xcworkspace
+
+*.DS_Store

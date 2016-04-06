@@ -1,0 +1,20 @@
+language: python
+python:
+  - "2.7"
+install:
+    - pip install -r requirements.txt
+    - pip install -r test-requirements.txt
+    - pip install coveralls
+    - pip install yapf==0.5.0
+    - pip install pyflakes==1.0.0
+script:
+    # Run unit tests and calculate code coverage.
+    - coverage run --source telescope -m unittest discover
+    # Check that source has correct formatting.
+    - yapf --diff --recursive --style google ./
+    # Run static analysis for Python bugs/cruft.
+    - pyflakes telescope/*.py tests/*.py
+after_success:
+    coveralls
+
+sudo: false
