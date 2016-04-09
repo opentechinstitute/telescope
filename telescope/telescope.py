@@ -300,7 +300,8 @@ def generate_query(selector, ip_translator, mlab_site_resolver):
         selector.metric,
         server_ips=server_ips,
         client_ip_blocks=client_ip_blocks,
-        client_country=selector.client_country)
+        client_country=selector.client_country,
+        is_affected = selector.is_affected)
     return query_generator.query()
 
 
@@ -453,13 +454,14 @@ def main(args):
             'site': data_selector.site,
             'client_provider': data_selector.client_provider,
             'client_country': data_selector.client_country,
-            'metric': data_selector.metric
+            'metric': data_selector.metric,
+            'is_affected': data_selector.is_affected
         }
         data_filepath = utils.build_filename(
             args.output, thread_metadata['date'], thread_metadata['duration'],
             thread_metadata['site'], thread_metadata['client_provider'],
             thread_metadata['client_country'], thread_metadata['metric'],
-            '-raw.csv')
+            thread_metadata['is_affected'], '-raw.csv')
         if not args.ignorecache and utils.check_for_valid_cache(data_filepath):
             logger.info(('Raw data file found (%s), assuming this is '
                          'cached copy of same data and moving off. Use '
@@ -494,7 +496,7 @@ def main(args):
                 thread_metadata['duration'], thread_metadata['site'],
                 thread_metadata['client_provider'],
                 thread_metadata['client_country'], thread_metadata['metric'],
-                '-bigquery.sql')
+                thread_metadata['is_affected'], '-bigquery.sql')
             write_bigquery_to_file(bigquery_filepath, bq_query_string)
         if not args.dryrun:
             # Offer Queue a tuple of the BQ statement, metadata, and a boolean

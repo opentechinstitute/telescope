@@ -342,7 +342,7 @@ class BigQueryCall(object):
         query_object = query_object or self
 
         started_checking = datetime.datetime.utcnow()
-
+        job_metadata['is_affected'] = str(job_metadata['is_affected']) 
         notification_identifier = ', '.join(filter(None, job_metadata.values()))
         self.logger.info('Queued request for %s, received job id: %s',
                          notification_identifier, job_id)

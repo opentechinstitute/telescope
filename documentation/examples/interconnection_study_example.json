@@ -6,6 +6,7 @@
     "start_times": ["2014-02-01T00:00:00Z"],
     "duration": "30d",
     "metrics": ["download_throughput", "minimum_rtt"],
+    "is_affected": [true, false],
     "ip_translation":{
         "strategy":"maxmind",
         "params":{

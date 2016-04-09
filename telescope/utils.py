@@ -40,7 +40,7 @@ def unix_timestamp_to_utc_datetime(unix_timestamp):
 
 
 def build_filename(outpath, date, duration, site, client_provider,
-                   client_country, metric, suffix):
+                   client_country, metric, is_affected, suffix):
     """Builds an output filename that reflects the data being written to file.
 
     Args:
@@ -58,6 +58,7 @@ def build_filename(outpath, date, duration, site, client_provider,
             the test results.
         metric (str): The name of the metric this data represents (e.g.
             download_throughput).
+        is_affected (bool): Whether the test is marked as affected.
         suffix (str): The appended string such as a note on the file information
             or the file extension (e.g. '-bigquery.sql').
 
@@ -65,15 +66,17 @@ def build_filename(outpath, date, duration, site, client_provider,
        (str): The generated full pathname of the output file.
     """
     filename_format = ("{date}+{duration}_{additional_properties}_"
-                       "{metric}{suffix}")
+                       "{metric}-{is_affected}{suffix}")
     additional_properties = "_".join(filter(None, [site, client_country,
                                                    client_provider]))
+    is_affected_notation = 'affected' if is_affected else 'not_affected'
 
     filename = filename_format.format(
         date=date,
         duration=duration,
         additional_properties=additional_properties,
         metric=metric,
+        is_affected = is_affected_notation,
         suffix=suffix)
     filename = strip_special_chars(filename)
     filepath = os.path.join(outpath, filename)

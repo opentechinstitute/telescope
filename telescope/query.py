@@ -62,8 +62,6 @@ def _create_test_validity_conditional(metric):
 
     conditions = []
     # Must have completed the TCP three-way handshake.
-    conditions.append('test_id IN (SELECT test_id FROM '
-        'plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 0)')
     conditions.append(
         ('(web100_log_entry.snap.State = {state_closed}\n\t'
          '\tOR (web100_log_entry.snap.State >= {state_established}\n\t'
@@ -139,12 +137,14 @@ class BigQueryQueryGenerator(object):
                  metric,
                  server_ips=None,
                  client_ip_blocks=None,
-                 client_country=None):
+                 client_country=None,
+                 is_affected = False):
         self.logger = logging.getLogger('telescope')
         self._metric = metric
         self._conditional_dict = {}
         self._add_data_direction_conditional(metric)
         self._add_log_time_conditional(start_time, end_time)
+        self._add_affected_test_conditional(is_affected)
 
         if client_ip_blocks:
             self._add_client_ip_blocks_conditional(client_ip_blocks)
@@ -166,7 +166,9 @@ class BigQueryQueryGenerator(object):
         if 'data_direction' in self._conditional_dict:
             conditional_list_string += self._conditional_dict['data_direction']
 
-        conditional_list_string += '\n\t AND %s' % (
+        conditional_list_string += '\n\tAND %s' % (
+            self._conditional_dict['is_affected'])
+        conditional_list_string += '\n\tAND %s' % (
             _create_test_validity_conditional(self._metric))
 
         log_times_joined = ' OR\n\t'.join(self._conditional_dict['log_time'])
@@ -208,6 +210,14 @@ class BigQueryQueryGenerator(object):
                 end_time=end_time)
 
         self._conditional_dict['log_time'].add(new_statement)
+
+    def _add_affected_test_conditional(self, is_affected):
+        if not is_affected:
+            self._conditional_dict['is_affected'] = ('test_id IN (SELECT test_id FROM '
+                'plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 0)')
+        else:
+            self._conditional_dict['is_affected'] = ('test_id IN (SELECT test_id FROM '
+                'plx.google:m_lab.ndt_test_ids_temporary.all WHERE is_affected == 1)')
 
     def _add_data_direction_conditional(self, metric):
         conditional = ''

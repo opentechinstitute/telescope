@@ -96,15 +96,16 @@ class MultiSelector(object):
         self.client_providers = [None]
         self.client_countries = [None]
         self.sites = [None]
+        self.is_affected = [None]
 
     def split(self):
         """Splits a MultiSelector into an equivalent list of Selectors."""
         selectors = []
         selector_product = itertools.product(
             self.start_times, self.client_providers, self.client_countries,
-            self.sites, self.metrics)
+            self.sites, self.metrics, self.is_affected)
         for (start_time, client_provider, client_country, site,
-             metric) in selector_product:
+             metric, is_affected) in selector_product:
             selector = Selector()
             selector.ip_translation_spec = self.ip_translation_spec
             selector.duration = self.duration
@@ -113,6 +114,7 @@ class MultiSelector(object):
             selector.client_country = client_country
             selector.site = site
             selector.metric = metric
+            selector.is_affected = is_affected
             selectors.append(selector)
         return selectors
 
@@ -190,6 +192,8 @@ class SelectorFileParser(object):
         if 'sites' in selector_json and selector_json['sites']:
             multi_selector.sites = _normalize_string_values(
                 selector_json['sites'])
+        if 'is_affected' in selector_json and selector_json['is_affected']:
+            multi_selector.is_affected = selector_json['is_affected']
 
         return multi_selector.split()
 
@@ -363,6 +367,8 @@ class MultiSelectorJsonEncoder(json.JSONEncoder):
             base_selector['client_countries'] = selector.client_countries
         if selector.client_providers != [None]:
             base_selector['client_providers'] = selector.client_providers
+        if selector.is_affected != [None]:
+            base_selector['is_affected'] = selector.is_affected
 
         return base_selector
 
