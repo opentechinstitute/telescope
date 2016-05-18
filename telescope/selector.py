@@ -369,6 +369,8 @@ class MultiSelectorJsonEncoder(json.JSONEncoder):
             base_selector['client_providers'] = selector.client_providers
         if selector.is_affected != [None]:
             base_selector['is_affected'] = selector.is_affected
+        else: 
+            base_selector['is_affected'] = [True]
 
         return base_selector
 
