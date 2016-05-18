@@ -370,7 +370,7 @@ class MultiSelectorJsonEncoder(json.JSONEncoder):
         if selector.is_affected != [None]:
             base_selector['is_affected'] = selector.is_affected
         else: 
-            base_selector['is_affected'] = [True]
+            base_selector['is_affected'] = [False]
 
         return base_selector
 
